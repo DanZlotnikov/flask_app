@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body >
+<center>
+    <div class="form-style-6">
+        <h1>Make request</h1>
+         <form action = '{{ url_for("add_order") }}' method = "POST">
+            <input type='email' name='email' id='email' placeholder="Email"/>
+             <select name='industry' id='industry'>
+            <option value='Metal'>Metal</option>
+            <option value='Wood'>Wood</option>
+            <option value='Electric'>Electric</option>
+        </select> <br/>
+            <textarea name="description" placeholder="Item description"></textarea>
+            <input type="submit" value="Send"/>
+        </form>
+    </div>
+</center>
+</body>
+</html>
