@@ -1,5 +1,5 @@
 from sqlite3 import *
-from flask import render_template
+from flask import *
 
 db = 'database.db'
 
@@ -26,3 +26,46 @@ def create_order(request):
             conn.close()
             return render_template("receipt.html", result=request.form, msg=msg)
 
+
+def login(request):
+    error = None
+    if request.method == 'POST':
+        valid_credentials = False
+        with connect('database.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT password FROM suppliers WHERE email = ?', (request.form['email'],))
+
+            # Search for password in db
+            for datarow in cursor.fetchall():
+                if str(datarow[0]) == str(request.form['password']):
+                    valid_credentials = True
+
+            error = None if valid_credentials else 'Invalid Credentials. Please try again.'
+
+            if valid_credentials:
+                return redirect(url_for('homepage'))
+
+    return render_template('login.html', error=error)
+
+
+def add_user(request):
+    if request.method == 'POST':
+        msg = "hi"
+        try:
+            email = str(request.form['email'])
+            industry = str(request.form['industry'])
+            password = str(request.form['password'])
+
+            with connect("database.db") as conn:
+                cursor = conn.cursor()
+                cursor.execute("INSERT INTO suppliers (email, industry, password) VALUES (?,?,?)", (email, industry, password))
+
+                conn.commit()
+                msg = "User successfully added"
+
+        except Exception as e:
+            msg = 'User creation failed: "{}"'.format(e.message)
+
+        finally:
+            conn.close()
+            return render_template("receipt.html", result=request.form, msg=msg)

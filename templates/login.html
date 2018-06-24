@@ -14,32 +14,28 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
-
 <div class="login-form">
-    <form action='{{ url_for("add_order") }}' method="POST">
-        <div class="avatar"><i class="material-icons">&#xe90e;</i></div>
-        <h4 class="modal-title">New Request</h4>
-
+    <form action='{{ url_for("login") }}' method="POST">
+        <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
+        <h4 class="modal-title">Log In</h4>
         <div class="form-group">
-            <label class="form-group">Industry: </label>
-            <select class="form-control" name='industry' id='industry'>
-                <option value='Metal'>Metal</option>
-                <option value='Wood'>Wood</option>
-                <option value='Electric'>Electric</option>
-            </select>
+            <input class="form-control" type='email' name='email' id='email' placeholder="Email" required>
         </div>
         <div class="form-group">
-            <label class="form-group">Item Description: </label>
-            <textarea class="form-control" name="description" placeholder="Item description"></textarea>
+            <input class="form-control" type="password" name="password" placeholder="Password" required>
         </div>
-
-        <div class="form-group">
-            <label class="form-group">Email: </label>
-            <input type="text" class="form-control" type='email' name='email' id='email' placeholder="Email" required>
+        <div class="form-group small clearfix">
+            <label class="checkbox-inline"><input type="checkbox"> Remember me</label>
+            <a href="#" class="forgot-link">Forgot Password?</a>
         </div>
-
-        <input type="submit" class="btn btn-primary btn-block btn-lg" value="Send">
+        <input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">
+        {% if error %}
+        <br/>
+        <p style="color:red" class="error"><strong>Error:</strong> {{ error }}
+            {% endif %}
     </form>
+    <div class="text-center small">Don't have an account? <a href='{{ url_for("create_new_user") }}'>Sign up</a></div>
 </div>
 </body>
 </html>
+
