@@ -17,7 +17,7 @@ def create_order(request):
                 cursor.execute("INSERT INTO orders  (consumer, industry, description) VALUES (?,?,?)", (consumer, industry, description))
 
                 conn.commit()
-                msg = "Record successfully added"
+                msg = "Order successfully created"
 
         except Exception as e:
             msg = 'Order creation failed: "{}"'.format(e.message)
@@ -61,7 +61,7 @@ def add_user(request):
                 cursor.execute("INSERT INTO suppliers (email, industry, password) VALUES (?,?,?)", (email, industry, password))
 
                 conn.commit()
-                msg = "User successfully added"
+                msg = "User successfully created"
 
         except Exception as e:
             msg = 'User creation failed: "{}"'.format(e.message)
