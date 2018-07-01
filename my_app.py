@@ -22,7 +22,9 @@ def homepage():
 
 @app.route('/order')
 def order():
-    return render_template('order.html')
+    logged = request.cookies.get('logged')
+    email = request.cookies.get('email')
+    return render_template('order.html', logged=logged, email=email)
 
 
 @app.route('/add_order', methods=['POST', 'GET'])

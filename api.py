@@ -43,7 +43,11 @@ def login(request):
             error = None if valid_credentials else 'Invalid Credentials. Please try again.'
 
             if valid_credentials:
-                return redirect(url_for('order'))
+                redirect_to_index = redirect('/order')
+                response = current_app.make_response(redirect_to_index)
+                response.set_cookie('logged', value='true')
+                response.set_cookie('email', value=request.form['email'])
+                return response
 
     return render_template('login.html', error=error)
 

@@ -16,7 +16,7 @@
 
 <body>
 <div>
-     <nav class="navbar navbar-default">
+   <nav class="navbar navbar-default">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -26,21 +26,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Brand</a>
+                <a class="navbar-brand" href="#">Mockup</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-collapse-2">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href='{{ url_for("order") }}'>Request Offer</a></li>
-                     <li><a href='{{ url_for("login") }}'>Log In</a></li>
+                    {% if not logged %}
+                    <li><a href='{{ url_for("login") }}'>Log In</a></li>
+                    {% endif %}
                     <li><a href="#">About</a></li>
                     <li><a href="#">Contact</a></li>
+                    <li>
+                    {% if logged %}
+                    <a> Hello, {{ email }} </a>
+                    {% else %}
+                    <a> Hello, Guest</a>
+                    {% endif %}
+                    </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container -->
     </nav><!-- /.navbar -->
-
 
     <div class="login-form">
         <form action='{{ url_for("add_user") }}' method="POST" autocomplete="off">
