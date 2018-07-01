@@ -43,7 +43,7 @@ def login(request):
             error = None if valid_credentials else 'Invalid Credentials. Please try again.'
 
             if valid_credentials:
-                return redirect(url_for('homepage'))
+                return redirect(url_for('order'))
 
     return render_template('login.html', error=error)
 
