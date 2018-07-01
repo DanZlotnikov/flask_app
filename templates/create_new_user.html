@@ -33,7 +33,7 @@
             <div class="collapse navbar-collapse" id="navbar-collapse-2">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href='{{ url_for("order") }}'>Request Offer</a></li>
-                    {% if not logged %}
+                    {% if logged is not 'true' %}
                     <li><a href='{{ url_for("login") }}'>Log In</a></li>
                     {% endif %}
                     <li><a href="#">About</a></li>

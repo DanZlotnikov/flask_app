@@ -22,9 +22,13 @@ def homepage():
 
 @app.route('/order')
 def order():
-    logged = request.cookies.get('logged')
+    logged = request.cookies.get('true')
     email = request.cookies.get('email')
-    return render_template('order.html', logged=logged, email=email)
+    if (logged is 'true'):
+        return render_template('order.html', logged=logged, email=email)
+
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/add_order', methods=['POST', 'GET'])
