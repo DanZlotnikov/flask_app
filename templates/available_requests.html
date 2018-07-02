@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Receipt
+    <title> My Orders
     </title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
@@ -15,18 +15,36 @@
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
 </head>
 <body>
-<div>
-   {% extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-<!-- Main Content -->
-    <div class="container-fluid">
-        <div class="side-body">
-            <div class="form-group">
-                <center>
-                    <h1>{{ msg }}</h1><br/>
-                </center>
-            </div>
-        </div>
+<div>
+    <!-- Main Content -->
+    <div class="container">
+        <center><h1> New requests in my industry: </h1> <br/></center>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Consumer Email</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            {% for order in orders %}
+            <tr>
+                <td>
+                    {{ order[0] }}
+                </td>
+
+                <td>
+                    {{ order[1] }}
+                </td>
+
+                <td>
+                    {{ order[2] }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 </div>
 {% endblock %}

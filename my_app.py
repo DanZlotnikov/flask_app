@@ -32,6 +32,14 @@ def order():
     return render_template('order.html', logged=logged, email=email)
 
 
+@app.route('/available_requests')
+def available_requests():
+    logged = request.cookies.get('logged')
+    email = request.cookies.get('email')
+    industry = request.cookies.get('industry')
+    return api.available_requests(logged=logged, email=email, industry=industry)
+
+
 @app.route('/my_orders')
 def my_orders():
     logged = request.cookies.get('logged')
@@ -42,7 +50,9 @@ def my_orders():
 
 @app.route('/add_order', methods=['POST', 'GET'])
 def add_order():
-    return api.create_order(request)
+    logged = request.cookies.get('logged')
+    email = request.cookies.get('email')
+    return api.create_order(request, logged, email)
 
 
 @app.route('/create_new_user')

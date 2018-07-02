@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> My Orders
+    </title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Mockup</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-collapse-2">
+                <ul class="nav navbar-nav navbar-right">
+                    {% if logged == 'true' %}
+                    <li><a href='{{ url_for("available_requests") }}'>Available Requests</a></li>
+                    {% endif %}
+
+                    {% if logged == 'true' %}
+                    <li><a href='{{ url_for("my_orders") }}'>My Orders</a></li>
+                    {% endif %}
+
+                    <li><a href='{{ url_for("order") }}'>Request Offer</a></li>
+                    <li>
+                        {% if logged == 'true'%}
+                        <a> Hello, {{ email }} </a>
+                        {% else %}
+                        <a> Hello, Guest</a>
+                        {% endif %}
+                    </li>
+
+                    {% if logged != 'true' %}
+                    <li><a href='{{ url_for("login") }}'>Log In</a></li>
+                    {% else %}
+                    <li><a href='{{ url_for("logout") }}'>Log Out</a></li>
+                    {% endif %}
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+    </nav><!-- /.navbar -->
+</div>
+    {% block content %}{% endblock %}
+</body>
+</html>

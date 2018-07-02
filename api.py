@@ -4,7 +4,7 @@ from flask import *
 db = 'database.db'
 
 
-def create_order(request):
+def create_order(request, logged, email):
     if request.method == 'POST':
         msg = "hi"
         try:
@@ -24,7 +24,7 @@ def create_order(request):
 
         finally:
             conn.close()
-            return render_template("receipt.html", result=request.form, msg=msg)
+            return render_template("receipt.html", result=request.form, msg=msg, logged=logged, email=email)
 
 
 def login(request):
@@ -43,7 +43,7 @@ def login(request):
             error = None if valid_credentials else 'Invalid Credentials. Please try again.'
 
             if valid_credentials:
-                redirect_to_index = redirect('/my_orders')
+                redirect_to_index = redirect('/available_requests')
                 response = current_app.make_response(redirect_to_index)
                 response.set_cookie('logged', value='true')
                 response.set_cookie('email', value=request.form['email'])
@@ -87,10 +87,19 @@ def add_user(request):
             return render_template("receipt.html", result=request.form, msg=msg)
 
 
+def available_requests(logged, email, industry):
+    with connect('database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT id, consumer, description FROM orders WHERE industry = ? and consumer != ? and supplier is null  ', (industry, email, ))
+
+        orders = cursor.fetchall()
+        return render_template('available_requests.html', orders=orders, logged=logged, email=email)
+
+
 def my_orders(logged, email, industry):
     with connect('database.db') as conn:
         cursor = conn.cursor()
-        cursor.execute('SELECT id, consumer, description FROM orders WHERE industry = ?', (industry,) )
+        cursor.execute('SELECT id, consumer, description FROM orders WHERE industry = ? and consumer != ? and supplier = ?  ', (industry, email, email ))
 
         orders = cursor.fetchall()
         return render_template('my_orders.html', orders=orders, logged=logged, email=email)
