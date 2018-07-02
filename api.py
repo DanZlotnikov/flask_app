@@ -43,13 +43,25 @@ def login(request):
             error = None if valid_credentials else 'Invalid Credentials. Please try again.'
 
             if valid_credentials:
-                redirect_to_index = redirect('/order')
+                redirect_to_index = redirect('/my_orders')
                 response = current_app.make_response(redirect_to_index)
                 response.set_cookie('logged', value='true')
                 response.set_cookie('email', value=request.form['email'])
+
+                cursor.execute('SELECT industry FROM suppliers WHERE email = ?', (request.form['email'],))
+                datarow = cursor.fetchone()
+                response.set_cookie('industry', str(datarow[0]))
+
                 return response
 
     return render_template('login.html', error=error)
+
+
+def logout():
+    redirect_to_index = redirect('/order')
+    response = current_app.make_response(redirect_to_index)
+    response.set_cookie('logged', value='false')
+    return response
 
 
 def add_user(request):
@@ -73,3 +85,12 @@ def add_user(request):
         finally:
             conn.close()
             return render_template("receipt.html", result=request.form, msg=msg)
+
+
+def my_orders(logged, email, industry):
+    with connect('database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT id, consumer, description FROM orders WHERE industry = ?', (industry,) )
+
+        orders = cursor.fetchall()
+        return render_template('my_orders.html', orders=orders, logged=logged, email=email)

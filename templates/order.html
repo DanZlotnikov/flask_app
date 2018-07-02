@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Log In
+    <title>New Request
     </title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
@@ -33,14 +33,19 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-collapse-2">
                 <ul class="nav navbar-nav navbar-right">
+                     {% if logged == 'true' %}
+                    <li><a href='{{ url_for("my_orders") }}'>My Orders</a></li>
+                    {% endif %}
                     <li><a href='{{ url_for("order") }}'>Request Offer</a></li>
-                    {% if logged is not 'true' %}
+                    {% if logged != 'true' %}
                     <li><a href='{{ url_for("login") }}'>Log In</a></li>
+                     {% else %}
+                    <li><a href='{{ url_for("logout") }}'>Log Out</a></li>
                     {% endif %}
                     <li><a href="#">About</a></li>
                     <li><a href="#">Contact</a></li>
                     <li>
-                    {% if logged %}
+                    {% if logged == 'true'%}
                     <a> Hello, {{ email }} </a>
                     {% else %}
                     <a> Hello, Guest</a>
@@ -75,7 +80,7 @@
 
                         <div class="form-group">
                             <label class="form-group">Email: </label>
-                            <input type="text" class="form-control" type='email' name='email' id='email' placeholder="Email" required>
+                            <input class="form-control" type='email'name='email' id='email' placeholder="Email" required  {% if logged=='true'%} value="{{ email }}" disabled="disabled" {% endif %} >
                         </div>
 
                         <input type="submit" class="btn btn-primary btn-block btn-lg" value="Send">

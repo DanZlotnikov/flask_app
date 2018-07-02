@@ -7,12 +7,17 @@ db = 'database.db'
 
 @app.route('/')
 def blank_url():
-    return redirect(url_for('login'))
+    return redirect(url_for('order'))
 
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     return api.login(request)
+
+
+@app.route('/logout')
+def logout():
+    return api.logout()
 
 
 @app.route('/homepage')
@@ -22,13 +27,17 @@ def homepage():
 
 @app.route('/order')
 def order():
-    logged = request.cookies.get('true')
+    logged = request.cookies.get('logged')
     email = request.cookies.get('email')
-    if (logged is 'true'):
-        return render_template('order.html', logged=logged, email=email)
+    return render_template('order.html', logged=logged, email=email)
 
-    else:
-        return redirect(url_for('login'))
+
+@app.route('/my_orders')
+def my_orders():
+    logged = request.cookies.get('logged')
+    email = request.cookies.get('email')
+    industry = request.cookies.get('industry')
+    return api.my_orders(logged=logged, email=email, industry=industry)
 
 
 @app.route('/add_order', methods=['POST', 'GET'])

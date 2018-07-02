@@ -30,16 +30,18 @@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="navbar-collapse-2">
+             <div class="collapse navbar-collapse" id="navbar-collapse-2">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href='{{ url_for("order") }}'>Request Offer</a></li>
-                    {% if logged is not 'true' %}
+                    {% if logged != 'true' %}
                     <li><a href='{{ url_for("login") }}'>Log In</a></li>
+                     {% else %}
+                    <li><a href='{{ url_for("logout") }}'>Log Out</a></li>
                     {% endif %}
                     <li><a href="#">About</a></li>
                     <li><a href="#">Contact</a></li>
                     <li>
-                    {% if logged %}
+                    {% if logged == 'true' %}
                     <a> Hello, {{ email }} </a>
                     {% else %}
                     <a> Hello, Guest</a>

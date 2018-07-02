@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Log In
+    <title> My Orders
     </title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
@@ -12,10 +12,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
 </head>
 <body>
+<!-- Second navbar for sign in -->
 <div>
-   <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -37,48 +39,50 @@
                     <li><a href='{{ url_for("order") }}'>Request Offer</a></li>
                     {% if logged != 'true' %}
                     <li><a href='{{ url_for("login") }}'>Log In</a></li>
-                     {% else %}
+                    {% else %}
                     <li><a href='{{ url_for("logout") }}'>Log Out</a></li>
                     {% endif %}
                     <li><a href="#">About</a></li>
                     <li><a href="#">Contact</a></li>
                     <li>
-                    {% if logged == 'true'%}
-                    <a> Hello, {{ email }} </a>
-                    {% else %}
-                    <a> Hello, Guest</a>
-                    {% endif %}
+                        {% if logged == 'true'%}
+                        <a> Hello, {{ email }} </a>
+                        {% else %}
+                        <a> Hello, Guest</a>
+                        {% endif %}
                     </li>
-                </ul>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container -->
     </nav><!-- /.navbar -->
 
+    <!-- Main Content -->
+    <div class="container">
+        <div class="side-body">
+            <div class='table-responsive'>
+                <h1> New requests in your industry: </h1> <br />
+                <table class ="table">
+                    {% for order in orders %}
+                   <tr>
+                       <td>
+                           {{ order[0] }}
+                       </td>
 
-    <div class="login-form">
-        <form action='{{ url_for("login") }}' method="POST">
-            <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
-            <h4 class="modal-title">Log In</h4>
-            <div class="form-group">
-                <input class="form-control" type='email' name='email' id='email' placeholder="Email" required>
+                       <td>
+                           {{ order[1] }}
+                       </td>
+
+                       <td>
+                           {{ order[2] }}
+                       </td>
+                   </tr>
+                    {% endfor %}
+                </table>
             </div>
-            <div class="form-group">
-                <input class="form-control" type="password" name="password" placeholder="Password" required>
-            </div>
-            <div class="form-group small clearfix">
-                <label class="checkbox-inline"><input type="checkbox"> Remember me</label>
-                <a href="#" class="forgot-link">Forgot Password?</a>
-            </div>
-            <input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">
-            {% if error %}
-            <br/>
-            <p style="color:red" class="error"><strong>Error:</strong> {{ error }}
-                {% endif %}
-        </form>
-        <div class="text-center small">Don't have an account? <a href='{{ url_for("create_new_user") }}'>Sign up</a></div>
+        </div>
     </div>
 </div>
+
 </body>
 </html>
 
