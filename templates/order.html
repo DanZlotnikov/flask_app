@@ -9,10 +9,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+
 </head>
 <body>
 {% extends 'base.html' %}
@@ -23,7 +24,7 @@
         <div class="side-body">
             <div class='login-form'>
                 <center>
-                    <form class="login-form" action='{{ url_for("add_order") }}' method="POST">
+                    <form class="login-form" action='{{ url_for("add_order") }}' method="POST" enctype="multipart/form-data">
                         <div class="avatar"><i class="material-icons">&#xe90e;</i></div>
                         <h4 class="modal-title">New Request</h4>
 
@@ -34,16 +35,20 @@
                                 <option value='Wood'>Wood</option>
                                 <option value='Electric'>Electric</option>
                             </select>
-                        </div>
+                        </div><br />
                         <div class="form-group">
-                            <label class="form-group">Item Description: </label>
+                            <label class="form-group">Description: </label>
                             <textarea class="form-control" name="description" placeholder="Item description"></textarea>
-                        </div>
-
+                            <label>or </label>
+                            <input type="file" onchange="displayUploadFiles()" name="file" id="file" class="inputfile" data-multiple-caption="{count} files selected"  />
+                                <label for="file">Upload file</label>
+                            <br />
+                            <label class = "removefile" id="removefile" onclick="removeFile()">Remove File </label>
+                        </div><br />
                         <div class="form-group">
                             <label class="form-group">Email: </label>
-                            <input class="form-control" type='email'name='email' id='email' placeholder="Email" required  {% if logged=='true'%} value="{{ email }}" readonly {% endif %} >
-                        </div>
+                            <input class="form-control" type='email' name='email' id='email' placeholder="Email" required {% if logged=='true'%} value="{{ email }}" readonly {% endif %}>
+                        </div><br />
                         <input type="submit" class="btn btn-primary btn-block btn-lg" value="Send">
                     </form>
                 </center>

@@ -1,21 +1,35 @@
-$(function () {
-    $('.navbar-toggle').click(function () {
-        $('.navbar-nav').toggleClass('slide-in');
-        $('.side-body').toggleClass('body-slide-in');
-        $('#search').removeClass('in').addClass('collapse').slideUp(200);
+function displayUploadFiles() {
+    var input = document.getElementById('file');
+    var label = input.nextElementSibling
+    var labelVal = label.innerHTML;
+    var orLabel = input.previousElementSibling;
+    var removefile = document.getElementById("removefile");
+    removefile.className = "removefileActive";
 
-        /// uncomment code for absolute positioning tweek see top comment in css
-        //$('.absolute-wrapper').toggleClass('slide-in');
+    var fileName = '';
+    if( input.files.length > 1 )
+        fileName = ( input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', input.files.length );
+    else
+        fileName = input.value.split( '\\' ).pop();
 
-    });
+    if( fileName ) {
+        label.innerHTML = fileName;
+        orLabel.innerHTML = "";
+    }
+    else
+        label.innerHTML = labelVal;
+}
 
-   // Remove menu for searching
-   $('#search-trigger').click(function () {
-        $('.navbar-nav').removeClass('slide-in');
-        $('.side-body').removeClass('body-slide-in');
+function removeFile() {
+    var input = document.getElementById('file');
+    input.value = null;
 
-        /// uncomment code for absolute positioning tweek see top comment in css
-        //$('.absolute-wrapper').removeClass('slide-in');
+    var removefile = document.getElementById("removefile");
+    removefile.className = "removefile";
 
-    });
-});
+    var label = input.nextElementSibling
+    var orLabel = input.previousElementSibling;
+
+    label.innerHTML = "Upload file(s)";
+    orLabel.innerHTML = "or";
+}

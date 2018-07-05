@@ -4,6 +4,43 @@ body {
 		background: #f5f5f5;
 		font-family: 'Roboto';
 	}
+.removefile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.removefileActive {
+    color:red;
+    text-decoration: underline;
+}
+.removefileActive:hover {
+    cursor: pointer;
+}
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.inputfile + label {
+    color:#4aba70;
+    text-decoration: underline;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    color: blue;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
 	.form-control {
 		box-shadow: none;
 		border-color: #ddd;
@@ -85,10 +122,6 @@ body {
     :focus {
   outline: none;
 }
-/*
-Code snippet by maridlcrmn for Bootsnipp.com
-Follow me on Twitter @maridlcrmn
-*/
 
 .navbar-brand { position: relative; z-index: 2; }
 

@@ -1,11 +1,17 @@
 from sqlite3 import *
+import os
 from flask import *
+from werkzeug.utils import secure_filename
+from flask import current_app as myapp
 
+UPLOAD_FOLDER = 'C:\Users\Dan.Z\Desktop'
 db = 'database.db'
+ALLOWED_EXTENSIONS = ['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'doc', 'docx']
 
 
 def create_order(request, logged, email):
     if request.method == 'POST':
+        upload_file(request)
         msg = "hi"
         try:
             consumer = str(request.form['email'])
@@ -90,7 +96,7 @@ def add_user(request):
 def available_requests(logged, email, industry):
     with connect('database.db') as conn:
         cursor = conn.cursor()
-        cursor.execute('SELECT id, consumer, description FROM orders WHERE industry = ? and consumer != ? and supplier is null  ', (industry, email, ))
+        cursor.execute('SELECT id, consumer, description FROM orders WHERE industry = ? and consumer != ? and supplier is null  ', (industry, email,))
 
         orders = cursor.fetchall()
         return render_template('available_requests.html', orders=orders, logged=logged, email=email)
@@ -99,7 +105,27 @@ def available_requests(logged, email, industry):
 def my_orders(logged, email, industry):
     with connect('database.db') as conn:
         cursor = conn.cursor()
-        cursor.execute('SELECT id, consumer, description FROM orders WHERE industry = ? and consumer != ? and supplier = ?  ', (industry, email, email ))
+        cursor.execute('SELECT id, consumer, description FROM orders WHERE industry = ? and consumer != ? and supplier = ?  ', (industry, email, email))
 
         orders = cursor.fetchall()
         return render_template('my_orders.html', orders=orders, logged=logged, email=email)
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def upload_file(request):
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(myapp.config['UPLOAD_FOLDER'], filename))
